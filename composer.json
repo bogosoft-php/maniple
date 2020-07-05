@@ -1,0 +1,21 @@
+{
+  "name": "bogosoft/maniple",
+  "description": "A PSR-11 compliant library for dependency injection in PHP applications.",
+  "autoload": {
+    "psr-4": {
+      "Bogosoft\\Maniple\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "psr/container": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.2"
+  }
+}

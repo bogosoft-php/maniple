@@ -1,6 +1,6 @@
 ## Maniple
 
-A PSR 11-compliant dependency injection/inversion of control library. 
+A PSR 11-compliant dependency injection/inversion of control library.
 
 #### Installation
 

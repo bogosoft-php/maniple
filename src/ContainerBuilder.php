@@ -169,6 +169,10 @@ class ContainerBuilder
      */
     function build(): IContainer
     {
-        return new ActivatorContainer($this->activators, $this->filters);
+        return new ActivatorContainer(
+            $this->activators,
+            $this->filters,
+            $this->resolvers
+            );
     }
 }

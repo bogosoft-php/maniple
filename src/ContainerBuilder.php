@@ -20,16 +20,26 @@ class ContainerBuilder
     private array $filters    = [];
 
     /** @var IParameterResolver[] */
-    private array $resolvers;
+    private array $parameterResolvers;
+
+    /** @var IPropertyResolver[]  */
+    private array $propertyResolvers;
 
     /**
      * Create a new container builder.
      *
-     * @param IParameterResolver[] $resolvers An array of parameter resolvers.
+     * @param IParameterResolver[] $parameterResolvers An array of parameter
+     *                                                 resolvers.
+     * @param IPropertyResolver[]  $propertyResolvers  An array of property
+     *                                                 resolvers.
      */
-    function __construct(array $resolvers)
+    function __construct(
+        array $parameterResolvers = [],
+        array $propertyResolvers = []
+        )
     {
-        $this->resolvers = $resolvers;
+        $this->parameterResolvers = $parameterResolvers;
+        $this->propertyResolvers  = $propertyResolvers;
     }
 
     /**
@@ -64,7 +74,7 @@ class ContainerBuilder
      */
     function addClass(string $name, string $class, bool $cache = false): self
     {
-        return $this->add($name, new ClassActivator($class, $this->resolvers), $cache);
+        return $this->add($name, new ClassActivator($class, $this->parameterResolvers), $cache);
     }
 
     /**
@@ -83,7 +93,7 @@ class ContainerBuilder
      */
     function addFactory(string $name, callable $factory, bool $cache = false): self
     {
-        return $this->add($name, new FactoryActivator($factory, $this->resolvers), $cache);
+        return $this->add($name, new FactoryActivator($factory, $this->parameterResolvers), $cache);
     }
 
     /**
@@ -103,7 +113,7 @@ class ContainerBuilder
      */
     function addFileFactory(string $name, string $path, bool $cache = false): self
     {
-        return $this->add($name, new FileFactoryActivator($path, $this->resolvers), $cache);
+        return $this->add($name, new FileFactoryActivator($path, $this->parameterResolvers), $cache);
     }
 
     /**
@@ -165,6 +175,24 @@ class ContainerBuilder
     }
 
     /**
+     * Register a class representing a value object as an activator.
+     *
+     * A value class is traditionally considered to be an object public
+     * properties and no methods, including a constructor.
+     *
+     * @param  string      $class The class of a value object.
+     * @param  string|null $name  An optional name under which the new value
+     *                            object activator will be registered.
+     * @return $this              The current container builder.
+     */
+    function addValueClass(string $class, string $name = null): self
+    {
+        $activator = new ValueObjectActivator($class, $this->propertyResolvers);
+
+        return $this->add($name ?? $class, $activator);
+    }
+
+    /**
      * Build a finalized service resolution container.
      */
     function build(): IContainer
@@ -172,7 +200,7 @@ class ContainerBuilder
         return new ActivatorContainer(
             $this->activators,
             $this->filters,
-            $this->resolvers
+            $this->parameterResolvers
             );
     }
 }

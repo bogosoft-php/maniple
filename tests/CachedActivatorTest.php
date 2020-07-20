@@ -22,9 +22,9 @@ class CachedActivatorTest extends TestCase
             return new Car($engine);
         };
 
-        $resolvers = [new TypedParameterResolver()];
+        $resolver = new TypedParameterResolver();
 
-        $activator = new FactoryActivator($factory, $resolvers);
+        $activator = new FactoryActivator($factory, $resolver);
         $activator = new CachedActivator($activator);
 
         $expected = 1399;

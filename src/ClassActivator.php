@@ -18,21 +18,19 @@ use RuntimeException;
 final class ClassActivator implements IActivator
 {
     private string $class;
-
-    /** @var IParameterResolver[] */
-    private array $resolvers;
+    private IParameterResolver $resolver;
 
     /**
      * Create a new class activator.
      *
-     * @param string               $class     The name of a class from which
-     *                                        a service will be created.
-     * @param IParameterResolver[] $resolvers An array of parameter resolvers.
+     * @param string             $class    The name of a class from which
+     *                                     a service will be created.
+     * @param IParameterResolver $resolver A parameter resolver.
      */
-    function __construct(string $class, array $resolvers)
+    function __construct(string $class, IParameterResolver $resolver)
     {
-        $this->class     = $class;
-        $this->resolvers = $resolvers;
+        $this->class    = $class;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -49,9 +47,8 @@ final class ClassActivator implements IActivator
 
         $resolve = function(ReflectionParameter $rp) use (&$rc, &$services)
         {
-            foreach ($this->resolvers as $resolver)
-                if ($resolver->resolve($rp, $services, $result))
-                    return $result;
+            if ($this->resolver->resolve($rp, $services, $result))
+                return $result;
 
             $parameter = "{$rc->name}::__construct::\${$rp->name}";
 

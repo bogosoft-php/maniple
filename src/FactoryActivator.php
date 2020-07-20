@@ -18,15 +18,15 @@ class FactoryActivator extends FactoryActivatorBase implements IActivator
     /**
      * Create a new factory activator.
      *
-     * @param callable             $factory   An invokable object responsible
-     *                                        for activating a service.
-     * @param IParameterResolver[] $resolvers An array of parameter resolvers.
+     * @param callable           $factory  An invokable object responsible
+     *                                     for activating a service.
+     * @param IParameterResolver $resolver A parameter resolver.
      */
-    function __construct(callable $factory, array $resolvers)
+    function __construct(callable $factory, IParameterResolver $resolver)
     {
-        parent::__construct($resolvers);
+        parent::__construct($resolver);
 
-        $this->factory   = $factory;
+        $this->factory = $factory;
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Bogosoft\Maniple\FileFactoryActivator;
+use Bogosoft\Maniple\NullParameterResolver;
 use Bogosoft\Maniple\TypedParameterResolver;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -15,7 +16,7 @@ class FileFactoryActivatorTest extends TestCase
     {
         $path = __DIR__ . '/services/car.php';
 
-        $resolvers = [new TypedParameterResolver()];
+        $resolver = new TypedParameterResolver();
 
         $expected = 899;
 
@@ -23,7 +24,7 @@ class FileFactoryActivatorTest extends TestCase
 
         $container = new SingleRegistrationContainer(Engine::class, $engine);
 
-        $activator = new FileFactoryActivator($path, $resolvers);
+        $activator = new FileFactoryActivator($path, $resolver);
 
         $car = $activator->activate($container);
 
@@ -38,7 +39,9 @@ class FileFactoryActivatorTest extends TestCase
 
         $this->assertFalse(is_file($path));
 
-        $activator = new FileFactoryActivator($path, []);
+        $resolver = new NullParameterResolver();
+
+        $activator = new FileFactoryActivator($path, $resolver);
 
         $this->expectException(RuntimeException::class);
 
@@ -51,7 +54,9 @@ class FileFactoryActivatorTest extends TestCase
 
         $this->assertTrue(is_file($path));
 
-        $activator = new FileFactoryActivator($path, []);
+        $resolver = new NullParameterResolver();
+
+        $activator = new FileFactoryActivator($path, $resolver);
 
         $this->expectException(RuntimeException::class);
 

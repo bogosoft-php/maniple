@@ -16,7 +16,7 @@ use ReflectionParameter;
  * This resolver is only successful when ...
  *
  * - The given parameter has been type-hinted.
- * - A corresponding service can be resolved from the given  container by the
+ * - A corresponding service can be resolved from the given container by the
  *   name of the type of the given parameter.
  *
  * @package Bogosoft\Maniple

@@ -21,26 +21,30 @@ final class ActivatorContainer implements IContainer
 {
     private array $activators;
     private array $filters;
-
-    /** @var IParameterResolver[] */
-    private array $resolvers;
+    private IParameterResolver $resolver;
 
     /**
      * Create a new activator container.
      *
-     * @param array $activators A collection of key-value pairs where the key
-     *                          is a service name, and the value is an
-     *                          {@see IActivator} object.
-     * @param array $filters    A collection of key-value pairs where the key
-     *                          is a service name (or scope), and the value is
-     *                          an {@see IServiceFilter} object.
-     * @param array $resolvers  An array of {@see IParameterResolver} objects.
+     * @param array              $activators A collection of key-value pairs
+     *                                       where the key is a service name,
+     *                                       and the value is an
+     *                                       {@see IActivator} object.
+     * @param array              $filters    A collection of key-value pairs
+     *                                       where the key is a service name
+     *                                       (or scope), and the value is an
+     *                                       {@see IServiceFilter} object.
+     * @param IParameterResolver $resolver   A parameter resolver.
      */
-    function __construct(array $activators, array $filters, array $resolvers)
+    function __construct(
+        array $activators,
+        array $filters,
+        IParameterResolver $resolver
+        )
     {
         $this->activators = $activators;
         $this->filters    = $filters;
-        $this->resolvers  = $resolvers;
+        $this->resolver   = $resolver;
     }
 
     /**
@@ -54,7 +58,7 @@ final class ActivatorContainer implements IContainer
         if (array_key_exists($id, $this->activators))
             $activator = $this->activators[$id];
         elseif (class_exists($id))
-            $activator = new ClassActivator($id, $this->resolvers);
+            $activator = new ClassActivator($id, $this->resolver);
 
         if (null === $activator)
             throw new NotFoundException($id);

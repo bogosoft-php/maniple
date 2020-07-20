@@ -17,21 +17,19 @@ use ReflectionProperty;
 class ValueObjectActivator implements IActivator
 {
     private string $class;
-
-    /** @var IPropertyResolver[] */
-    private array $resolvers;
+    private IPropertyResolver $resolver;
 
     /**
      * Create a new value object activator.
      *
-     * @param string              $class     The name of the class of a value
-     *                                       object.
-     * @param IPropertyResolver[] $resolvers An array of property resolvers.
+     * @param string              $class  The name of the class of a value
+     *                                    object.
+     * @param IPropertyResolver $resolver A property resolver.
      */
-    function __construct(string $class, array $resolvers)
+    function __construct(string $class, IPropertyResolver $resolver)
     {
-        $this->class     = $class;
-        $this->resolvers = $resolvers;
+        $this->class    = $class;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -49,13 +47,8 @@ class ValueObjectActivator implements IActivator
         $filter = ReflectionProperty::IS_PUBLIC;
 
         foreach ($rc->getProperties($filter) as $rp)
-            foreach ($this->resolvers as $resolver)
-                if ($resolver->resolve($rp, $services, $result))
-                {
-                    $rp->setValue($service, $result);
-
-                    break;
-                }
+            if ($this->resolver->resolve($rp, $services, $result))
+                $rp->setValue($service, $result);
 
         return $service;
     }

@@ -18,17 +18,16 @@ use RuntimeException;
  */
 abstract class FactoryActivatorBase implements IActivator
 {
-    /** @var IParameterResolver[] */
-    private array $resolvers;
+    private IParameterResolver $resolver;
 
     /**
      * Create a new factory activator.
      *
-     * @param IParameterResolver[] $resolvers An array of parameter resolvers.
+     * @param IParameterResolver $resolver A parameter resolver.
      */
-    protected function __construct(array $resolvers)
+    protected function __construct(IParameterResolver $resolver)
     {
-        $this->resolvers = $resolvers;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -70,10 +69,8 @@ abstract class FactoryActivatorBase implements IActivator
 
     private function resolve(ReflectionParameter $rp, IContainer $services)
     {
-        /** @var IParameterResolver $resolver */
-        foreach ($this->resolvers as $resolver)
-            if ($resolver->resolve($rp, $services, $result))
-                return $result;
+        if ($this->resolver->resolve($rp, $services, $result))
+            return $result;
 
         $message = sprintf($this->getErrorMessageFormat(), $rp->getName());
 

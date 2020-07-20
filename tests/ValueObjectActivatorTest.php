@@ -16,9 +16,9 @@ class ValueObjectActivatorTest extends TestCase
         $expectedAge  = rand(25, 45);
         $expectedName = 'Alice';
 
-        $resolvers = [new TypedPropertyResolver()];
+        $resolver = new TypedPropertyResolver();
 
-        $activator = new ValueObjectActivator(Person::class, $resolvers);
+        $activator = new ValueObjectActivator(Person::class, $resolver);
 
         $container = new class($expectedAge, $expectedName) implements IContainer
         {

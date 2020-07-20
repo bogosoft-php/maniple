@@ -17,29 +17,23 @@ use RuntimeException;
 class ContainerBuilder
 {
     private array $activators = [];
-    private array $filters    = [];
-
-    /** @var IParameterResolver[] */
-    private array $parameterResolvers;
-
-    /** @var IPropertyResolver[]  */
-    private array $propertyResolvers;
+    private array $filters = [];
+    private IParameterResolver $parameterResolver;
+    private IPropertyResolver $propertyResolver;
 
     /**
      * Create a new container builder.
      *
-     * @param IParameterResolver[] $parameterResolvers An array of parameter
-     *                                                 resolvers.
-     * @param IPropertyResolver[]  $propertyResolvers  An array of property
-     *                                                 resolvers.
+     * @param IParameterResolver $parameterResolver A parameter resolver.
+     * @param IPropertyResolver  $propertyResolver  A property resolver.
      */
     function __construct(
-        array $parameterResolvers = [],
-        array $propertyResolvers = []
+        IParameterResolver $parameterResolver,
+        IPropertyResolver $propertyResolver
         )
     {
-        $this->parameterResolvers = $parameterResolvers;
-        $this->propertyResolvers  = $propertyResolvers;
+        $this->parameterResolver = $parameterResolver;
+        $this->propertyResolver  = $propertyResolver;
     }
 
     /**
@@ -74,7 +68,7 @@ class ContainerBuilder
      */
     function addClass(string $name, string $class, bool $cache = false): self
     {
-        return $this->add($name, new ClassActivator($class, $this->parameterResolvers), $cache);
+        return $this->add($name, new ClassActivator($class, $this->parameterResolver), $cache);
     }
 
     /**
@@ -93,7 +87,7 @@ class ContainerBuilder
      */
     function addFactory(string $name, callable $factory, bool $cache = false): self
     {
-        return $this->add($name, new FactoryActivator($factory, $this->parameterResolvers), $cache);
+        return $this->add($name, new FactoryActivator($factory, $this->parameterResolver), $cache);
     }
 
     /**
@@ -113,7 +107,7 @@ class ContainerBuilder
      */
     function addFileFactory(string $name, string $path, bool $cache = false): self
     {
-        return $this->add($name, new FileFactoryActivator($path, $this->parameterResolvers), $cache);
+        return $this->add($name, new FileFactoryActivator($path, $this->parameterResolver), $cache);
     }
 
     /**
@@ -187,7 +181,7 @@ class ContainerBuilder
      */
     function addValueClass(string $class, string $name = null): self
     {
-        $activator = new ValueObjectActivator($class, $this->propertyResolvers);
+        $activator = new ValueObjectActivator($class, $this->propertyResolver);
 
         return $this->add($name ?? $class, $activator);
     }
@@ -200,7 +194,7 @@ class ContainerBuilder
         return new ActivatorContainer(
             $this->activators,
             $this->filters,
-            $this->parameterResolvers
+            $this->parameterResolver
             );
     }
 }

@@ -25,13 +25,13 @@ class FileFactoryActivator extends FactoryActivatorBase implements IActivator
     /**
      * Create a new file factory activator.
      *
-     * @param string               $path      The path to a file that returns
-     *                                        a factory.
-     * @param IParameterResolver[] $resolvers An array of parameter resolvers.
+     * @param string               $path   The path to a file that returns
+     *                                     a factory.
+     * @param IParameterResolver $resolver A parameter resolver.
      */
-    function __construct(string $path, iterable $resolvers)
+    function __construct(string $path, IParameterResolver $resolver)
     {
-        parent::__construct($resolvers);
+        parent::__construct($resolver);
 
         $this->path = $path;
     }

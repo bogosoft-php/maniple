@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\CachedActivator;
 use Bogosoft\Maniple\FactoryActivator;
-use Bogosoft\Maniple\TypedParameterResolver;
+use Bogosoft\Reflection\TypedParameterResolver;
 use PHPUnit\Framework\TestCase;
 
 class CachedActivatorTest extends TestCase

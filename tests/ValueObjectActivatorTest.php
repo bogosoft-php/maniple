@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Bogosoft\Maniple\Tests;
 
-use Bogosoft\Maniple\TypedPropertyResolver;
+use Bogosoft\Reflection\TypedPropertyResolver;
 use Bogosoft\Maniple\ValueObjectActivator;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface as IContainer;

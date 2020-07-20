@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bogosoft\Maniple;
 
+use Bogosoft\Reflection\IParameterResolver;
 use Closure;
 use RuntimeException;
 use Psr\Container\ContainerInterface as IContainer;

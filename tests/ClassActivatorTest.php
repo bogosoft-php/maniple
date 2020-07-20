@@ -1,10 +1,10 @@
 <?php /** @noinspection PhpUnhandledExceptionInspection */
 
-namespace Tests;
+namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\ClassActivator;
-use Bogosoft\Maniple\NullParameterResolver;
-use Bogosoft\Maniple\TypedParameterResolver;
+use Bogosoft\Reflection\NullParameterResolver;
+use Bogosoft\Reflection\TypedParameterResolver;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

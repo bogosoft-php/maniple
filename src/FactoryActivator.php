@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bogosoft\Maniple;
 
+use Bogosoft\Reflection\IParameterResolver;
+
 /**
  * An activator that delegates the responsibility of activating a service
  * to a {@see callable} object.

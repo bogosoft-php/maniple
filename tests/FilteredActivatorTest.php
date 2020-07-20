@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\FilteredActivator;
 use Bogosoft\Maniple\IActivator;

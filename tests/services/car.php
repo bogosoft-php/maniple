@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Tests\Car;
-use Tests\Engine;
+use Bogosoft\Maniple\Tests\Car;
+use Bogosoft\Maniple\Tests\Engine;
 
 return function(Engine $engine): Car
 {

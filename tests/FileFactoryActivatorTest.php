@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\FileFactoryActivator;
-use Bogosoft\Maniple\NullParameterResolver;
-use Bogosoft\Maniple\TypedParameterResolver;
+use Bogosoft\Reflection\NullParameterResolver;
+use Bogosoft\Reflection\TypedParameterResolver;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

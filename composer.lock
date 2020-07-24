@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e01761e4dbb4bb01ddff18ededb1c589",
+    "content-hash": "ad2b91fc19dac0d7b5ec1cba37b550cf",
     "packages": [
         {
             "name": "bogosoft/reflection",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bogosoft-php/reflection.git",
-                "reference": "8faba8de9c793f0ee3cf88dc42a95850d62cf1f2"
+                "reference": "cb32986c980f85ab1b52ce812a42817085d7eb0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bogosoft-php/reflection/zipball/8faba8de9c793f0ee3cf88dc42a95850d62cf1f2",
-                "reference": "8faba8de9c793f0ee3cf88dc42a95850d62cf1f2",
+                "url": "https://api.github.com/repos/bogosoft-php/reflection/zipball/cb32986c980f85ab1b52ce812a42817085d7eb0f",
+                "reference": "cb32986c980f85ab1b52ce812a42817085d7eb0f",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +38,7 @@
                 "MIT"
             ],
             "description": "A PSR-11 container assisted reflection library.",
-            "time": "2020-07-24T02:10:29+00:00"
+            "time": "2020-07-24T03:44:15+00:00"
         },
         {
             "name": "psr/container",

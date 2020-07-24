@@ -17,6 +17,11 @@ use ReflectionProperty;
  */
 class ValueObjectActivator implements IActivator
 {
+    static function __set_state($data)
+    {
+        return new ValueObjectActivator($data['class'], $data['resolver']);
+    }
+
     private string $class;
     private IPropertyResolver $resolver;
 

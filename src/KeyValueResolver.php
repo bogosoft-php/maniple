@@ -19,6 +19,11 @@ use ReflectionProperty;
  */
 class KeyValueResolver implements IParameterResolver, IPropertyResolver
 {
+    static function __set_state($data)
+    {
+        return new KeyValueResolver($data['values']);
+    }
+
     private array $values;
 
     /**

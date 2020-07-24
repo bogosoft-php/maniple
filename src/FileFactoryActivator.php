@@ -21,6 +21,11 @@ use Psr\Container\ContainerInterface as IContainer;
  */
 class FileFactoryActivator extends FactoryActivatorBase implements IActivator
 {
+    static function __set_state($data)
+    {
+        return new FileFactoryActivator($data['path'], $data['resolver']);
+    }
+
     private string $path;
 
     /**

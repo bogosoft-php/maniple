@@ -14,6 +14,11 @@ use Psr\Container\ContainerInterface as IContainer;
  */
 final class CachedActivator implements IActivator
 {
+    static function __set_state($data)
+    {
+        return new CachedActivator($data['source']);
+    }
+
     private IActivator $source;
 
     /** @var mixed|null */

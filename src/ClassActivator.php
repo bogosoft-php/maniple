@@ -18,6 +18,11 @@ use RuntimeException;
  */
 final class ClassActivator implements IActivator
 {
+    static function __set_state($data)
+    {
+        return new ClassActivator($data['class'], $data['resolver']);
+    }
+
     private string $class;
     private IParameterResolver $resolver;
 

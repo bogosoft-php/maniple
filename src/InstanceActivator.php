@@ -14,6 +14,11 @@ use Psr\Container\ContainerInterface as IContainer;
  */
 final class InstanceActivator implements IActivator
 {
+    static function __set_state($data)
+    {
+        return new InstanceActivator($data['instance']);
+    }
+
     /** @var mixed */
     private $instance;
 

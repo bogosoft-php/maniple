@@ -13,6 +13,11 @@ use Psr\Container\ContainerInterface as IContainer;
  */
 final class FilteredActivator implements IActivator
 {
+    static function __set_state($data)
+    {
+        return new FilteredActivator($data['activator'], $data['filters']);
+    }
+
     private IActivator $activator;
 
     /** @var IServiceFilter[] */

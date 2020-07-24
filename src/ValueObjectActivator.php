@@ -48,7 +48,7 @@ class ValueObjectActivator implements IActivator
         $filter = ReflectionProperty::IS_PUBLIC;
 
         foreach ($rc->getProperties($filter) as $rp)
-            if ($this->resolver->resolve($rp, $services, $result))
+            if ($this->resolver->resolveProperty($rp, $services, $result))
                 $rp->setValue($service, $result);
 
         return $service;

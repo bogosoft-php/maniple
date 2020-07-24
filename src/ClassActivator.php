@@ -48,7 +48,7 @@ final class ClassActivator implements IActivator
 
         $resolve = function(ReflectionParameter $rp) use (&$rc, &$services)
         {
-            if ($this->resolver->resolve($rp, $services, $result))
+            if ($this->resolver->resolveParameter($rp, $services, $result))
                 return $result;
 
             $parameter = "{$rc->name}::__construct::\${$rp->name}";

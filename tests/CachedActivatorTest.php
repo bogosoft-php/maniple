@@ -6,7 +6,7 @@ namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\CachedActivator;
 use Bogosoft\Maniple\FactoryActivator;
-use Bogosoft\Reflection\TypedParameterResolver;
+use Bogosoft\Reflection\TypedResolver;
 use PHPUnit\Framework\TestCase;
 
 class CachedActivatorTest extends TestCase
@@ -22,7 +22,7 @@ class CachedActivatorTest extends TestCase
             return new Car($engine);
         };
 
-        $resolver = new TypedParameterResolver();
+        $resolver = new TypedResolver();
 
         $activator = new FactoryActivator($factory, $resolver);
         $activator = new CachedActivator($activator);

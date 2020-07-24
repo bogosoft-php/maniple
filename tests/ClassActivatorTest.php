@@ -3,8 +3,8 @@
 namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\ClassActivator;
-use Bogosoft\Reflection\NullParameterResolver;
-use Bogosoft\Reflection\TypedParameterResolver;
+use Bogosoft\Reflection\NullResolver;
+use Bogosoft\Reflection\TypedResolver;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -18,7 +18,7 @@ class ClassActivatorTest extends TestCase
 
         $container = new SingleRegistrationContainer(Engine::class, $engine);
 
-        $resolver = new TypedParameterResolver();
+        $resolver = new TypedResolver();
 
         $activator = new ClassActivator(Car::class, $resolver);
 
@@ -33,7 +33,7 @@ class ClassActivatorTest extends TestCase
     {
         $container = new EmptyContainer();
 
-        $resolver = new NullParameterResolver();
+        $resolver = new NullResolver();
 
         $activator = new ClassActivator(Car::class, $resolver);
 

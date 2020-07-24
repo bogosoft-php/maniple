@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Bogosoft\Maniple\Tests;
 
-use Bogosoft\Reflection\TypedPropertyResolver;
+use Bogosoft\Reflection\TypedResolver;
 use Bogosoft\Maniple\ValueObjectActivator;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface as IContainer;
@@ -16,7 +16,7 @@ class ValueObjectActivatorTest extends TestCase
         $expectedAge  = rand(25, 45);
         $expectedName = 'Alice';
 
-        $resolver = new TypedPropertyResolver();
+        $resolver = new TypedResolver();
 
         $activator = new ValueObjectActivator(Person::class, $resolver);
 

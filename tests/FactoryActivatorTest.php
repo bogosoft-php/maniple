@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Bogosoft\Maniple\Tests;
 
 use Bogosoft\Maniple\FactoryActivator;
-use Bogosoft\Reflection\NullParameterResolver;
-use Bogosoft\Reflection\TypedParameterResolver;
+use Bogosoft\Reflection\NullResolver;
+use Bogosoft\Reflection\TypedResolver;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -25,7 +25,7 @@ class FactoryActivatorTest extends TestCase
 
         $container = new SingleRegistrationContainer(Engine::class, $engine);
 
-        $resolver = new TypedParameterResolver();
+        $resolver = new TypedResolver();
 
         $activator = new FactoryActivator($factory, $resolver);
 
@@ -45,7 +45,7 @@ class FactoryActivatorTest extends TestCase
 
         $container = new EmptyContainer();
 
-        $resolver = new NullParameterResolver();
+        $resolver = new NullResolver();
 
         $activator = new FactoryActivator($factory, $resolver);
 

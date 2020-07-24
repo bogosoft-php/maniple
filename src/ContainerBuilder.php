@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bogosoft\Maniple;
 
+use Bogosoft\Reflection\CompositeParameterResolver;
+use Bogosoft\Reflection\CompositePropertyResolver;
 use Bogosoft\Reflection\IParameterResolver;
 use Bogosoft\Reflection\IPropertyResolver;
 use ErrorException;
@@ -61,16 +63,31 @@ class ContainerBuilder
     /**
      * Register a class activator.
      *
-     * @param  string $name  A name by which the new activator can
-     *                       be referenced.
-     * @param  string $class The class to be used for activation.
-     * @param  bool   $cache A value indicating whether or not a service,
-     *                       once activated, is to be cached.
-     * @return $this         The current container builder.
+     * @param  string $name   A name by which the new activator can be
+     *                        referenced.
+     * @param  string $class  The class to be used for activation.
+     * @param  bool   $cache  A value indicating whether or not a service,
+     *                        once activated, is to be cached.
+     * @param  array  $params An optional collection of key-value pairs.
+     * @return $this          The current container builder.
      */
-    function addClass(string $name, string $class, bool $cache = false): self
+    function addClass(
+        string $name,
+        string $class,
+        bool $cache = false,
+        array $params = []
+        )
+        : self
     {
-        return $this->add($name, new ClassActivator($class, $this->parameterResolver), $cache);
+        $resolver = $this->parameterResolver;
+
+        if (count($params) > 0)
+            $resolver = new CompositeParameterResolver(
+                $resolver,
+                new KeyValueResolver($params)
+                );
+
+        return $this->add($name, new ClassActivator($class, $resolver), $cache);
     }
 
     /**
@@ -85,11 +102,26 @@ class ContainerBuilder
      * @param  callable $factory A factory to be used for activation.
      * @param  bool     $cache   A value indicating whether or not a service,
      *                           once activated, is to be cached.
+     * @param  array    $params  An optional collection of key-value pairs.
      * @return $this             The current container builder.
      */
-    function addFactory(string $name, callable $factory, bool $cache = false): self
+    function addFactory(
+        string $name,
+        callable $factory,
+        bool $cache = false,
+        array $params = []
+        )
+        : self
     {
-        return $this->add($name, new FactoryActivator($factory, $this->parameterResolver), $cache);
+        $resolver = $this->parameterResolver;
+
+        if (count($params) > 0)
+            $resolver = new CompositeParameterResolver(
+                $resolver,
+                new KeyValueResolver($params)
+            );
+
+        return $this->add($name, new FactoryActivator($factory, $resolver), $cache);
     }
 
     /**
@@ -100,16 +132,31 @@ class ContainerBuilder
      *
      * - fn({@see IContainer}): {@see mixed}
      *
-     * @param  string $name  A name by which the new activator can be
-     *                       referenced.
-     * @param  string $path  The path to a file containing a factory.
-     * @param  bool   $cache A value indicating whether or not a service,
-     *                       once activated, is to be cached.
-     * @return $this         The current container builder.
+     * @param  string $name   A name by which the new activator can be
+     *                        referenced.
+     * @param  string $path   The path to a file containing a factory.
+     * @param  bool   $cache  A value indicating whether or not a service,
+     *                        once activated, is to be cached.
+     * @param  array  $params An optional collection of key-value pairs.
+     * @return $this          The current container builder.
      */
-    function addFileFactory(string $name, string $path, bool $cache = false): self
+    function addFileFactory(
+        string $name,
+        string $path,
+        bool $cache = false,
+        array $params = []
+        )
+        : self
     {
-        return $this->add($name, new FileFactoryActivator($path, $this->parameterResolver), $cache);
+        $resolver = $this->parameterResolver;
+
+        if (count($params) > 0)
+            $resolver = new CompositeParameterResolver(
+                $resolver,
+                new KeyValueResolver($params)
+                );
+
+        return $this->add($name, new FileFactoryActivator($path, $resolver), $cache);
     }
 
     /**
@@ -176,16 +223,33 @@ class ContainerBuilder
      * A value class is traditionally considered to be an object public
      * properties and no methods, including a constructor.
      *
-     * @param  string      $class The class of a value object.
-     * @param  string|null $name  An optional name under which the new value
-     *                            object activator will be registered.
-     * @return $this              The current container builder.
+     * @param  string      $class  The class of a value object.
+     * @param  string|null $name   An optional name under which the new value
+     *                             object activator will be registered.
+     * @param  bool        $cache  A value indicating whether or not a service,
+     *                             once activated, is to be cached.
+     * @param  array       $params An optional collection of key-value pairs.
+     * @return $this               The current container builder.
      */
-    function addValueClass(string $class, string $name = null): self
+    function addValueClass(
+        string $class,
+        string $name = null,
+        bool $cache = false,
+        array $params = []
+        )
+        : self
     {
-        $activator = new ValueObjectActivator($class, $this->propertyResolver);
+        $resolver = $this->propertyResolver;
 
-        return $this->add($name ?? $class, $activator);
+        if (count($params) > 0)
+            $resolver = new CompositePropertyResolver(
+                $resolver,
+                new KeyValueResolver($params)
+                );
+
+        $activator = new ValueObjectActivator($class, $resolver);
+
+        return $this->add($name ?? $class, $activator, $cache);
     }
 
     /**

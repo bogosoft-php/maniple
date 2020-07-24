@@ -70,7 +70,7 @@ abstract class FactoryActivatorBase implements IActivator
 
     private function resolve(ReflectionParameter $rp, IContainer $services)
     {
-        if ($this->resolver->resolve($rp, $services, $result))
+        if ($this->resolver->resolveParameter($rp, $services, $result))
             return $result;
 
         $message = sprintf($this->getErrorMessageFormat(), $rp->getName());
